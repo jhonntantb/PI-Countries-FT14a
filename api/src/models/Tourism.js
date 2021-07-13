@@ -22,12 +22,11 @@ module.exports = (sequelize) => {
     },
     duration:{
         type: DataTypes.INTEGER,
+        allowNull: false
     },
     season:{
-        type: DataTypes.STRING,
-        // validate:{
-        //   equals: 'spring'||'summer'||'autumn'||'winter'
-        // }
+        type: DataTypes.ENUM('spring','summer','autumn','winter'),
+        allowNull: false
     }
   });
 };

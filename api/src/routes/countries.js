@@ -1,36 +1,73 @@
 const { Router } = require('express');
-const {Country}=require('../db')
+const {Country,Tourism,}=require('../db')
+const axios= require('axios');
+const { Op } = require('sequelize');
 const router = Router();
-
-router.get("/",(_req,res,next)=>{
-    //En una primera instancia deberán traer todos los países desde restcountries y guardarlos en su propia base de datos y luego ya utilizarlos desde allí (Debe almacenar solo los datos necesarios para la ruta principal)
-    //Obtener un listado de los primeros 10 países
-    Country.findAll({limit:10,where:{},order:["name", "DESC"]}).then(countries=>res.send(countries)).catch(err=>next(err))
-})
-router.get("/:idCountry",(req,res,next)=>{
+router.get("/:idCountry",async (req,res,next)=>{
     //Obtener el detalle de un país en particular
     //Debe traer solo los datos pedidos en la ruta de detalle de país
-    //Incluir los datos de las actividades turísticas correspondientes me falta
+    //Incluir los datos de las actividades turísticas correspondientes
     const id= req.params.idCountry;
+    try {
+        const country=await Country.findOne({where:{id:id},include:{model: Tourism}})
+        res.send(country)
+    } catch (error) {
+        next(error)
+    }
+     
+})
+router.get("/",async (req,res,next)=>{
+    //En una primera instancia deberán traer todos los países desde restcountries y guardarlos en su propia base de datos y luego ya utilizarlos desde allí (Debe almacenar solo los datos necesarios para la ruta principal)
+    //---me traigo todo de mi api para guardar lo que necesito en mi db---
+    const resp= await axios("https://restcountries.eu/rest/v2/all")
+    const response=resp.data;
+    //---Como el Republic of kosovo no tiene numericCode le asigno uno-----
+    const indexKosovo=response.findIndex(e=>e.name=="Republic of Kosovo")
+    response[indexKosovo].numericCode="926"
+    //-------------------------si obtengo name por query--------------------
     const name=req.query.name
-    if(id){
-        return Country.findByPk(id).then(country=>res.send(country)).catch(err=>next(err))
+
+    const api=await Country.findAll()
+    if(api.length==0){
+        try {
+            for(let i=0;i<response.length;i++){
+                await Country.create({
+                    id:response[i].numericCode,
+                    name:response[i].name,
+                    flag:response[i].flag,
+                    continent: response[i].region,
+                    capital:response[i].capital,
+                    subregion:response[i].subregion,
+                    area:response[i].area,
+                    population:response[i].population
+                })
+            }        
+        } catch (error) {
+            next(error)
+        }
     }
     if(name){
-        Country.findOne({where:{name:'%${name}%'}}).then((country)=>{
-            if(!country) return res.send("The Country with that name does not exist");
-             res.send(country)})
-             .catch(err=>next(err))
+        try {
+            const country= await Country.findAll({where:{name:{[Op.iLike]:`%${name}%`}}})
+            if(country.length>0) return res.send(country);
+            res.send("No existe un pais con el nombre ingresado")
+        } catch (error) {
+            next(error)
+        }
+    }
+    try {
+        const countries=await Country.findAll({
+            limit:10,
+            offset:req.query.page,
+            order:[["name", req.query.order]]
+            })
+        res.send(countries)
+    } catch (error) {
+        next(error)
     }
     
+    
 })
-// router.get("/?name",(req,res)=>{
-//     //GET /countries?name="...":
-// //Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
-// //Si no existe ningún país mostrar un mensaje adecuado
-//     res.send("soy la ruta countries")
-// })
-
 module.exports = router;
 
 

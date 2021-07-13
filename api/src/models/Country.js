@@ -31,15 +31,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING
     },
     area:{
-      type: DataTypes.INTEGER,
-      allowNull:false,
+      type: DataTypes.FLOAT,
+ 
     },
     population:{
-      type: DataTypes.INTEGER, 
-      allowNull: false,
-      validate:{
-        isFloat: true
-      }
+      type: DataTypes.FLOAT, 
     }
   });
 };
