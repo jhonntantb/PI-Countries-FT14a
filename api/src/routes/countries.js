@@ -48,7 +48,9 @@ router.get("/",async (req,res,next)=>{
     }
     if(name){
         try {
-            const country= await Country.findAll({where:{name:{[Op.iLike]:`%${name}%`}}})
+            const country= await Country.findAll({
+                where:{name:{[Op.iLike]:`%${name}%`}
+            }})
             if(country.length>0) return res.send(country);
             res.send("No existe un pais con el nombre ingresado")
         } catch (error) {

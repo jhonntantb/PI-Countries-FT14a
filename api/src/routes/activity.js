@@ -1,16 +1,40 @@
 const { Router } = require('express');
-const {Tourism}=require('../db')
+const {Tourism,Country}=require('../db')
 const router = Router();
-router.get("/",(_req,res,next)=>{
-    return Tourism.findAll().then(activities=>res.send(activities)).catch(err=>next(err))
+router.get("/",async(_req,res,next)=>{
+    try {
+        const activities=await Tourism.findAll({include:{model:Country}})
+        res.send(activities)
+    } catch (error) {
+        next(error)
+    }
 });
-router.post("/",(req,res,next)=>{
-    const {name,difficulty,duration,season}=req.body
+router.post("/",async (req,res,next)=>{
+    const {activity,countryId}=req.body
     //Recibe los datos recolectados desde el formulario controlado de la ruta de creación de actividad turística por body
     //Crea una actividad turística en la base de datos
-    return Tourism.create({name:name,difficulty:difficulty,duration:duration,season:season})
-    .then(activity=>res.send(activity))
-    .catch(err=>next(err))
+    console.log("esto es activity",activity)
+    console.log("esto es ids:",countryId)
+    try {
+        const [activit, created]=await Tourism.findOrCreate({where:{
+            name:activity.name,
+            difficulty:activity.difficulty,
+            duration:activity.duration,
+            season:activity.season
+            },
+            defaults:{
+                name:activity.name,
+                difficulty:activity.difficulty,
+                duration:activity.duration,
+                season:activity.season
+            }
+        })
+        console.log(created)
+        await activit.setCountries(countryId)
+        res.send(activit)
+    } catch (error) {
+        next(error)        
+    }
 });
 // router.put("/:id",(req,res,next)=>{
 //     const name=req.params.name;
