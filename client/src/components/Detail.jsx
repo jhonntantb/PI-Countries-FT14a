@@ -12,15 +12,27 @@ function Detail(props) {
         dispatch(getDetail(id))
     }, [dispatch,id])
     const detail=useSelector(state=>state.detail)
+    console.log(detail)
     return (
         <div>
             <div>
-                <h3>{detail.name}</h3>
-                <h3>{detail.continent}</h3>
-                <img src={detail.flag} alt="No encontro la bandera" width="200px" height="150px" />
-                <h3>{detail.capital}</h3>
-                <h3>{detail.subregion}</h3>
-                {/*mostrar las actividades que te viene en detail.tourims */}
+                <div>
+                    <div>
+                        <img src={detail.flag} alt="No encontro la bandera" width="200px" height="150px" />
+                    </div>
+                    <div>
+                        <h3>{detail.name}</h3>
+                        <p>{detail.continent}</p>
+                        <p>{detail.capital}</p>
+                        <p>{detail.subregion}</p>
+                        <p>{detail.area}</p>
+                        <p>{detail.population}</p>
+                    </div>
+                </div>
+                {/*mostrar las actividades que te viene en detail.tourims
+                crear un nuevo div y mapear lo que nos viene en el array 
+                creando un nuevas cards con todas esas informaciones
+                 */}
             </div>
             <div>
                 <Link to="/home">

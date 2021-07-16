@@ -13,6 +13,7 @@ function Home() {
     useEffect(() => {
         dispach(getCountries(page,order))
     }, [dispach,page,order])
+    
     const allCountries = useSelector(state => state.countries)
     const handleClick=(e)=>{
         e.preventDefault();
@@ -37,6 +38,9 @@ function Home() {
             <h1>Paises del Mundo</h1>
             <SearchBar/>
             <button onClick={(e)=>handleClick(e)}>Mostrar Todos los paises</button>
+            <Link to="/addActivity" >
+                <button>Crear una Actividad Turistica</button>
+            </Link>
             <div>
                 <h3>Ordenar de forma</h3>
                 <select onChange={e=>changeOrder(e)}>
