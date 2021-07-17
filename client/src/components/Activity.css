@@ -7,3 +7,18 @@
     border: 1px solid yellow;
     cursor: pointer;
 }
+.pageNumbers li.activo {
+    background-color: rgb(66, 64, 64);
+    color: white;
+}
+.pageNumbers li button{
+    background-color: transparent;
+    border: none;
+    color: rgb(66, 64, 64);
+    font-size: 1rem;
+    cursor: pointer;
+}
+.pageNumbers li button:hover{
+    background-color: white;
+    color:teal;
+}

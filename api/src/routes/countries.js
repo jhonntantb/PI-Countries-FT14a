@@ -49,21 +49,21 @@ router.get("/",async (req,res,next)=>{
     if(name){
         try {
             const country= await Country.findAll({
-                where:{name:{[Op.iLike]:`%${name}%`}
-            }})
+                where:{name:{[Op.iLike]:`%${name}%`}},
+                order:[["name", "ASC"]]
+            })
             if(country.length>0) return res.send(country);
-            res.send("No existe un pais con el nombre ingresado")
+            return res.send("No existe un pais con el nombre ingresado")
         } catch (error) {
             next(error)
         }
     }
     try {
         const countries=await Country.findAll({
-            limit:10,
-            offset:req.query.page,
-            order:[["name", req.query.order]]
+            order:[["name", req.query.order]],
+            include:{model: Tourism}
             })
-        res.send(countries)
+        return res.send(countries)
     } catch (error) {
         next(error)
     }

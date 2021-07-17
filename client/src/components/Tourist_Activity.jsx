@@ -21,10 +21,10 @@ function Tourist_Activity() {
     const [countryMo,setCountryMo]=useState([])// guardar los paises de mi estado de "redux"
     
     const countryForm= useSelector(state => state.countryForm);
-
+    //si se agrega un o varios paises
     useEffect(() => {
        setCountryMo([...countryMo,...countryForm])
-       setCountyId(countryMo.map(e=>e.id)/*.filter((e,i)=>{return countryMo.indexOf(e)===i})*/)
+       //setCountyId(countryMo?.map(e=>e.id).filter((e,i)=>{return countryMo.indexOf(e)===i})/*.filter((e,i)=>{return countryMo.indexOf(e)===i})*/)
     }, [dispatch,countryForm])
 
     function handleSubmit(e) {
@@ -47,6 +47,7 @@ function Tourist_Activity() {
     function handleClickSearch(e){
         e.preventDefault();
         dispatch(getCountriesForm(countryName))
+        setCountyId(countryMo.map(e=>e.id)/*.filter((e,i)=>{return countryMo.indexOf(e)===i})*/)
         setCountryName("")
         }
     function handleClearCountry(event,idp){
@@ -54,19 +55,20 @@ function Tourist_Activity() {
         setCountryMo(countryMo.filter(el=>el.id!==idp))
         setCountyId(countryMo.map(e=>e.id))
     }
-    useEffect(() => {
-        setCountyId(countryMo.map(e=>e.id))
-    }, [countryMo])
+    // //si cambia mi paises selecionados: se elimina
+    // useEffect(() => {
+    //     setCountyId(countryMo.map(e=>e.id).filter((e,i)=>{return countryMo.indexOf(e)===i}))
+    // }, [countryMo])
     return (
         <>
             <h1>Crear Actividad Turistica</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Nombre: </label>
+                    <label htmlFor="name">Nombre: </label>
                     <input type="text" onChange={handleChange} value={newActivity.name} name="name" placeholder="Nombre de la actividad"/>
                 </div>
                 <div>
-                    <label for="dificultad">Dificultad: </label>
+                    <label htmlFor="difficulty">Dificultad: </label>
                     <input type="text" onChange={handleChange}  name="difficulty" list="dificultad" />
                     <datalist id="dificultad">
                         <option value="1"/>
@@ -77,11 +79,11 @@ function Tourist_Activity() {
                     </datalist>
                 </div>
                 <div>
-                    <label>Duración de la Actividad: </label>
+                    <label htmlFor="duration">Duración de la Actividad: </label>
                     <input onChange={handleChange}  name="duration" type="number" min="1" max="72" placeholder="   hrs."/>
                 </div>
                 <div>
-                    <label >Temporada: </label>
+                    <label htmlFor="season">Temporada: </label>
                     <input type="text" list="temporada" onChange={handleChange}  name="season"/>
                     <datalist id="temporada">
                         <option value="summer"/>
@@ -90,12 +92,12 @@ function Tourist_Activity() {
                         <option value="autumn"/>
                     </datalist>
                 </div>
-                <label>Agregar Paises </label>
-                <input type="text" placeholder="Ingrese país"  value={countryName} onChange={(e)=>handleInputSearch(e)} />
+                <label htmlFor="Agregar">Agregar Paises </label>
+                <input type="text" name="Agregar" placeholder="Ingrese país"  value={countryName} onChange={(e)=>handleInputSearch(e)} />
                 <button onClick={(e)=>handleClickSearch(e)}>Buscar</button>
                 <div>
                     {countryMo.map(e=>(
-                    <div>
+                    <div key={e.id}>
                         <h4>{e.name}</h4>
                         <img src={e.flag} width="100px" height="75px" alt="No encontrado"/>
                         <button onClick={event=>handleClearCountry(event,e.id)}>X</button>
