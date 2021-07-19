@@ -53,7 +53,7 @@ router.get("/",async (req,res,next)=>{
                 order:[["name", "ASC"]]
             })
             if(country.length>0) return res.send(country);
-            return res.send("No existe un pais con el nombre ingresado")
+            
         } catch (error) {
             next(error)
         }
