@@ -4,7 +4,8 @@ import {useState,useEffect}from "react";
 import {useDispatch,useSelector} from "react-redux";
 import CountryCard from "./CountryCard";
 import SearchBar from "./SearchBar"
-import {getCountries} from "../actions/index" 
+import {getCountries} from "../actions/index"
+import "./Home.css"
 
 function Home() {
     const dispach=useDispatch();
@@ -13,6 +14,7 @@ function Home() {
     const [cardPerPage,setCardPerPage]=useState(10);
     const [season,setSeason]=useState("")
     const [filterPopulation,setFilterPopulation]=useState("")
+    const [filterByContinent,setFilterByContinent]=useState("")
     useEffect(() => {
         dispach(getCountries(order))
     }, [dispach,order])
@@ -30,8 +32,8 @@ function Home() {
         })
     }
 
-    if(season){
-        allCountries=allCountries.filter(e=>e.Tourisms.season===season)
+    if(filterByContinent){
+        allCountries=allCountries.filter(e=>e.continent===filterByContinent)
     }
     
     const [pageNumberLimit,setPageNumberLimit]=useState(5);
@@ -92,18 +94,27 @@ function Home() {
         e.preventDefault()
         setFilterPopulation(e.target.value)
     }
- 
+    const handleContinent=(e)=>{
+        e.preventDefault();
+        setFilterByContinent(e.target.value)
+    }
     const changeOrder=(e)=>{
         setOrder(e.target.value)
     }
     return (
         <div>
-            <h1>Paises del Mundo</h1>
-            <SearchBar/>
+            <br/>
+            
             <button onClick={(e)=>handleClickPaises(e)}>Mostrar Todos los paises</button>
-            <Link to="/addActivity" >
-                <button>Crear una Actividad Turistica</button>
-            </Link>
+            <div>
+                <Link to="/addActivity" >
+                    <button className="addActivity">Crear una Actividad Turistica</button>
+                </Link>
+            </div>
+            <div>
+            <h3>Buscar País</h3>
+            <SearchBar/>
+            </div>
             <div>
                 <h3>Ordenar por Nombre de forma</h3>
                 <select onChange={e=>changeOrder(e)}>
@@ -117,6 +128,17 @@ function Home() {
                     <option value=""></option>
                     <option value="ASC">De menor a mayor Población</option>
                     <option value="DESC">De mayor a menor Población</option>
+                </select>
+            </div>
+            <div>
+                <h3>Filtrar por Continentes</h3>
+                <select name="continent" onChange={e=>handleContinent(e)}>
+                    <option value=""></option>
+                    <option value="Africa">Africa</option>
+                    <option value="Americas">Americas</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Europe">Europa</option>
+                    <option value="Oceania">Oceania</option>
                 </select>
             </div>
             <div>
@@ -138,8 +160,6 @@ function Home() {
                     </li>
                 </ul>
             </div>
-            <button>prev</button>
-            <button>next</button>
         </div>
     )
 }

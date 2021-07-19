@@ -15,50 +15,65 @@ function Tourist_Activity() {
 
     })
     const { push } = useHistory()
+    const countryForm= useSelector(state => state.countryForm);
     // para obtener el id del pais con el cual relacionar
     const [countryName,setCountryName]=useState("")// nombre del pais a buscar
     const [countryId,setCountyId]=useState([])// guardar id de paises a relacionar
-    const [countryMo,setCountryMo]=useState([])// guardar los paises de mi estado de "redux"
+    const [countryMo,setCountryMo]=useState([])// guardar los paises que estoy seleccionando
     
-    const countryForm= useSelector(state => state.countryForm);
+    
     //si se agrega un o varios paises
     useEffect(() => {
-       setCountryMo([...countryMo,...countryForm])
-       //setCountyId(countryMo?.map(e=>e.id).filter((e,i)=>{return countryMo.indexOf(e)===i})/*.filter((e,i)=>{return countryMo.indexOf(e)===i})*/)
-    }, [dispatch,countryForm])
+        let verificador=[...countryMo,...countryForm]
+        const removeDuplicates=(array, prop)=>{
+            var newArray = [];
+            var lookupObject  = {};
+       
+            for(var i in array) {
+               lookupObject[array[i][prop]] = array[i];
+            }
+       
+            for(i in lookupObject) {
+                newArray.push(lookupObject[i]);
+            }
+             return newArray;
+        }
 
-    function handleSubmit(e) {
+       setCountryMo(removeDuplicates(verificador,"id"))
+       setCountyId(countryMo.map(e=>e.id))/*.filter((e,i)=>{return countryMo.indexOf(e)===i})//[...new Set(countryMo.map(e=>e.id))]*/
+    }, [dispatch,countryForm])
+    useEffect(() => {
+        setCountyId(countryMo.map(e=>e.id))
+    }, [countryMo])
+
+    const handleSubmit=(e)=>{
         e.preventDefault()
         dispatch(postActivity(newActivity,countryId))
         alert("Se creo la actividad")
         dispatch(clearActivityForm())
         push("/activities")
     }
-    function handleChange(e) {
+    const handleChange=(e)=>{
         setNewActivity(values => ({
           ...values,
           [e.target.name]: e.target.value
         }))
     }
-    function handleInputSearch(e){
+    const handleInputSearch=(e)=>{
         e.preventDefault()
         setCountryName(e.target.value)
     }
-    function handleClickSearch(e){
+    const handleClickSearch=async (e)=>{
         e.preventDefault();
         dispatch(getCountriesForm(countryName))
-        setCountyId(countryMo.map(e=>e.id)/*.filter((e,i)=>{return countryMo.indexOf(e)===i})*/)
         setCountryName("")
         }
-    function handleClearCountry(event,idp){
+    const handleClearCountry=async (event,idp)=>{
         event.preventDefault()
         setCountryMo(countryMo.filter(el=>el.id!==idp))
         setCountyId(countryMo.map(e=>e.id))
     }
-    // //si cambia mi paises selecionados: se elimina
-    // useEffect(() => {
-    //     setCountyId(countryMo.map(e=>e.id).filter((e,i)=>{return countryMo.indexOf(e)===i}))
-    // }, [countryMo])
+ 
     return (
         <>
             <h1>Crear Actividad Turistica</h1>

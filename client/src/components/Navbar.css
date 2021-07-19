@@ -3,7 +3,7 @@
     width: 100%;
     top: 0;
     left: 0;
-    background-color: #303236;
+    background-color: transparent;
     flex-direction: column;
     flex-wrap: nowrap;
     display: flex;
@@ -36,14 +36,23 @@
 }
 
 .list-item a {
-    color: white;
+    color: rgb(32, 49, 35);
+    font-weight: 500;
     height: 100%;
-    padding: 16px 10px;
+    padding: 0px 50px;
     border-bottom: 4px solid transparent;
 }
 
 .list-item a:hover,
 .list-item a.active {
-    background-color: #808080;
-    color: white;
+    background-color: rgb(171, 207, 177);
+    color: rgb(138, 96, 204);
+    padding: auto;
+    font-size:  20px;
+}
+.title{
+    color: rgb(83, 2, 2);
+    font-style:inherit;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
 }
