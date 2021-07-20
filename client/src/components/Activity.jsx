@@ -10,7 +10,8 @@ function Activity() {
 
     const dispach=useDispatch();
     let allActivities = useSelector(state => state.activities)//esto es  lo que vamos ordenar
-    //console.log(allActivities)
+    
+    console.log(allActivities)
     const [currentPage,setCurrentPage]=useState(1);
     const [cardPerPage,setCardPerPage]=useState(10);
     const [order,setOrder]=useState("ASC")
@@ -98,19 +99,22 @@ function Activity() {
         <div>
             <h1>Actividades</h1>
             {/* //<SearchBar/>  */}
-            <button onClick={e=>handleAllActivities(e)}>Mostrar Todas las Actividades</button>
-            <Link to="/addActivity" >
-                <button>Crear una Actividad Turistica</button>
+            <button className="mostrarAll" onClick={e=>handleAllActivities(e)}>Mostrar Todas las Actividades</button>
+            <Link to="/home/activities/addActivity" >
+                <button className="mostrarAll">Crear una Actividad Turistica</button>
             </Link>
-            <div>
-                <h3>Ordenar de forma</h3>
-                <select onChange={e=>changeOrder(e)}>
+            <br />
+            <br />
+            <div className="filter">
+                <div>
+                <label htmlFor="order">Ordenar de forma</label>
+                <select name="order" onChange={e=>changeOrder(e)}>
                     <option value="ASC">Ascendente</option>
                     <option value="DESC">Descendente</option>
                 </select>
-            </div>
-            <div>
-                <h3>Filtrar por Temporada</h3>
+                </div>
+                <div>
+                <label htmlFor="season">Filtrar por Temporada</label>
                 <select name="season" onChange={changeSeason}>
                     <option value=""></option>
                     <option value="summer">Summer</option>
@@ -118,8 +122,10 @@ function Activity() {
                     <option value="spring">Spring</option>
                     <option value="autumn">Autumn</option>
                 </select>
+                </div>
             </div>
             <div>
+                <div className="activities">
                 { currentItems.map(e=>{return (
                     <ActivityCard 
                     name={e.name} 
@@ -129,6 +135,7 @@ function Activity() {
                     countries={e.countries}
                     key={e.id}/>
                 )})}
+                </div>
                 <ul className="pageNumbers">
                     <li>
                         <button onClick={handlePrevbtn}

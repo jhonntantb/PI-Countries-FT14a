@@ -16,8 +16,9 @@ function SearchBar() {
         setName("")
     }
     return (
-        <div>
-            <input type="text" placeholder="Ingrese país"  value={name} onChange={(e)=>handleInputChange(e)}/>
+        <div className="searchCountry">
+            <label htmlFor="search">Buscar Pais </label>
+            <input type="text" name="search" placeholder="Ingrese país"  value={name} onChange={(e)=>handleInputChange(e)}/>
             <button onClick={(e)=>handleClick(e)} >Buscar</button>
             
         </div>

@@ -1,0 +1,46 @@
+.addActivity{
+    text-decoration: none;
+    padding: 20px;
+    font-family: arial;
+    text-transform: uppercase;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-weight: 800;
+    font-size: 25px;
+    color: black;
+    background-color: #5a5454;
+    cursor: pointer;
+}
+.mostrarAll{
+    text-decoration: none;
+    padding: 20px;
+    font-family: arial;
+    text-transform: uppercase;
+    padding-left: 86px;
+    padding-right: 86px;
+    font-weight: 800;
+    font-size: 25px;
+    color: black;
+    background-color: #d87c7c;
+    cursor: pointer;
+}
+.filter{
+    display:flex;
+    align-content: space-around;
+    justify-content: space-around;
+    padding: 10px;
+    color: rgb(77, 2, 2);
+    background-color: white;
+    font-size: 1rem;
+}
+.searchCountry{
+    width: 100%;
+    padding: 10px;
+    background-color: brown;
+}
+.countries{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}

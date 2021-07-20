@@ -1,6 +1,7 @@
 .cardActivity {
-    border: 1px solid #cc0909;
+    border: 2px solid #cc0909;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     margin: 20px;
     width: 18rem;
+    background-color: rgb(202, 223, 243);
 }

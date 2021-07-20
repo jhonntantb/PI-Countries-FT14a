@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import{useDispatch,useSelector} from "react-redux";
 import {useEffect} from 'react';
 import {getDetail} from "../actions/index"
+import ActivityCard from './ActivityCard';
 
 
 function Detail(props) {
@@ -17,25 +18,29 @@ function Detail(props) {
         <div>
             <div>
                 <div>
+                    <h3>País y sus actividades</h3>
                     <div>
-                        <img src={detail.flag} alt="No encontro la bandera" width="200px" height="150px" />
-                    </div>
-                    <div>
-                        <h3>{detail.name}</h3>
-                        <p>{detail.continent}</p>
-                        <p>{detail.capital}</p>
-                        <p>{detail.subregion}</p>
-                        <p>{detail.area}</p>
-                        <p>{detail.population}</p>
+                        <h3>Nombre: {detail.name}</h3>
+                        <p>Id:{detail.id}</p>
+                        <img src={detail.flag} alt="No encontro la bandera" width="200px" height="150px" /> 
+                        <p>Continente: {detail.continent}</p>
+                        <p>Subregión: {detail.subregion}</p>
+                        <p>Capital: {detail.capital}</p>
+                        <p>Área:{detail.area}</p>
+                        <p>Poplación: {detail.population}</p>
                     </div>
                 </div>
-                {/*mostrar las actividades que te viene en detail.tourims
-                crear un nuevo div y mapear lo que nos viene en el array 
-                creando un nuevas cards con todas esas informaciones
-                 */}
+                <div>
+                {detail.tourisms?detail.tourisms.map(e=><ActivityCard 
+                name={e.name} 
+                difficulty={e.difficulty} 
+                duration={e.duration} 
+                season={e.season} />)
+                :<p>Aun no se agregaron actividades puedes agregarlo </p>}
+                </div>
             </div>
             <div>
-                <Link to="/home">
+                <Link to="/home/countries">
                 <button>Volver</button>
                 </Link>
             </div>

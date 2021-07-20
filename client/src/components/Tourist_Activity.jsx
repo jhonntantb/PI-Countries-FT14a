@@ -32,7 +32,6 @@ function Tourist_Activity() {
             for(var i in array) {
                lookupObject[array[i][prop]] = array[i];
             }
-       
             for(i in lookupObject) {
                 newArray.push(lookupObject[i]);
             }
@@ -51,7 +50,7 @@ function Tourist_Activity() {
         dispatch(postActivity(newActivity,countryId))
         alert("Se creo la actividad")
         dispatch(clearActivityForm())
-        push("/activities")
+        push("/home")
     }
     const handleChange=(e)=>{
         setNewActivity(values => ({
