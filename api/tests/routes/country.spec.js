@@ -2,23 +2,27 @@
 const { expect } = require('chai');
 const session = require('supertest-session');
 const app = require('../../src/app.js');
-const { Country, conn } = require('../../src/db.js');
+const { Tourism, conn } = require('../../src/db.js');
+
 
 const agent = session(app);
-const country = {
-  name: 'Argentina',
+const activity = {
+  name: 'Caminar',
+  difficulty:3,
+  duration:3,
+  season:"summer"
 };
 
-describe('Country routes', () => {
+describe('Tourism routes', () => {
   before(() => conn.authenticate()
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   }));
-  beforeEach(() => Country.sync({ force: true })
-    .then(() => Country.create(pokemon)));
-  describe('GET /countries', () => {
+  beforeEach(() => Tourism.sync({ force: true })
+    .then(() => Tourism.create(activity)));
+  describe('GET /activity', () => {
     it('should get 200', () =>
-      agent.get('/countries').expect(200)
+      agent.get('/activity').expect(200)
     );
   });
 });
