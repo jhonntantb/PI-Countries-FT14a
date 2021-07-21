@@ -7,7 +7,7 @@ function Welcome() {
         <div>
             <h1>Bienvenidos a Countries</h1>
             <Link to="/home">
-                <button>Ingresar</button>
+                <button className="ingresarbtn">Ingresar</button>
             </Link>
         </div>
     )

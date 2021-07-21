@@ -4,3 +4,16 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+.ingreasarbtn{
+    text-decoration: none;
+    padding: 20px;
+    font-family: arial;
+    text-transform: uppercase;
+    padding-left: 86px;
+    padding-right: 86px;
+    font-weight: 800;
+    font-size: 25px;
+    color: black;
+    background-color: #d87c7c;
+    cursor: pointer;
+}

@@ -77,7 +77,7 @@ function Countries() {
         }
     })
 
-    const handleClickPaises=(e)=>{
+    const handleClickPaises=async(e,order)=>{
         e.preventDefault();
         dispach(getCountries(order))
         setCurrentPage(1);
@@ -85,6 +85,8 @@ function Countries() {
         setSeason("")
         setMaxPageNumberLimit(5)
         setMinPageNumberLmit(0)
+        setFilterPopulation("")
+        setFilterByContinent("")
     }
     const handlePopulation=(e)=>{
         e.preventDefault()
@@ -101,13 +103,13 @@ function Countries() {
         <div>
             <br/>
             <div>
-                <button className="mostrarAll" onClick={(e)=>handleClickPaises(e)}>Mostrar Todos los paises</button>
+                <button className="mostrarAll" onClick={(e)=>handleClickPaises(e,order)}>Mostrar Todos los paises</button>
                 <Link to="/home/activities/addActivity" >
                     <button className="addActivity">Crear una Actividad Turistica</button>
                 </Link>
             </div>
             <div className="searchCountry">
-                <SearchBar/>
+                <SearchBar handleClickPaises={handleClickPaises} order={order}/>
             </div>
             <div className="filter">
                 <div>

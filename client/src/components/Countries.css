@@ -44,3 +44,14 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+.detail{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.detailCountry{
+    background-color: blanchedalmond;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1rem black;
+}
