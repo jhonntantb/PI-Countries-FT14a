@@ -13,8 +13,8 @@ router.post("/",async (req,res,next)=>{
     const {activity,countryId}=req.body
     //Recibe los datos recolectados desde el formulario controlado de la ruta de creación de actividad turística por body
     //Crea una actividad turística en la base de datos
-    console.log("esto es activity",activity)
-    console.log("esto es ids:",countryId)
+    // console.log("esto es activity",activity)
+    // console.log("esto es ids:",countryId)
     try {
         const [activit, created]=await Tourism.findOrCreate({where:{
             name:activity.name,

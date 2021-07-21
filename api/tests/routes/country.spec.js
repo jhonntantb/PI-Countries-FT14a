@@ -18,7 +18,7 @@ describe('Tourism routes', () => {
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   }));
-  beforeEach(() => Tourism.sync({ force: true })
+  beforeEach(() => Tourism.sync({ force: false })
     .then(() => Tourism.create(activity)));
   describe('GET /activity', () => {
     it('should get 200', () =>
