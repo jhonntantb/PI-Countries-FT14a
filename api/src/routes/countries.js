@@ -19,16 +19,17 @@ router.get("/:idCountry",async (req,res,next)=>{
 router.get("/",async (req,res,next)=>{
     //En una primera instancia deberán traer todos los países desde restcountries y guardarlos en su propia base de datos y luego ya utilizarlos desde allí (Debe almacenar solo los datos necesarios para la ruta principal)
     //---me traigo todo de mi api para guardar lo que necesito en mi db---
-    const resp= await axios("https://restcountries.eu/rest/v2/all")
-    const response=resp.data;
-    //---Como el Republic of kosovo no tiene numericCode le asigno uno-----
-    const indexKosovo=response.findIndex(e=>e.name=="Republic of Kosovo")
-    response[indexKosovo].numericCode="926"
+    
     //-------------------------si obtengo name por query--------------------
     const name=req.query.name
 
     const api=await Country.findAll()
     if(api.length==0){
+        const resp= await axios("https://restcountries.eu/rest/v2/all")
+    const response=resp.data;
+    //---Como el Republic of kosovo no tiene numericCode le asigno uno-----
+    const indexKosovo=response.findIndex(e=>e.name=="Republic of Kosovo")
+    response[indexKosovo].numericCode="926"
         try {
             for(let i=0;i<response.length;i++){
                 await Country.create({
@@ -60,7 +61,7 @@ router.get("/",async (req,res,next)=>{
     }
     try {
         const countries=await Country.findAll({
-            order:[["name", req.query.order]],
+            order:[["name", "ASC"]],
             include:{model: Tourism}
             })
         return res.send(countries)
