@@ -126,7 +126,7 @@ function Activity() {
             </div>
             <div>
                 <div className="activities">
-                { currentItems.map(e=>{return (
+                {currentItems?currentItems.map(e=>{return (
                     <ActivityCard 
                     name={e.name} 
                     difficulty={e.difficulty} 
@@ -134,7 +134,7 @@ function Activity() {
                     season={e.season}
                     countries={e.countries}
                     key={e.id}/>
-                )})}
+                )}):<p>Loading</p>}
                 </div>
                 <ul className="pageNumbers">
                     <li>

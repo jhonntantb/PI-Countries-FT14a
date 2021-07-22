@@ -39,7 +39,7 @@ function Tourist_Activity() {
         }
 
        setCountryMo(removeDuplicates(verificador,"id"))
-       setCountyId(countryMo.map(e=>e.id))/*.filter((e,i)=>{return countryMo.indexOf(e)===i})//[...new Set(countryMo.map(e=>e.id))]*/
+       //setCountyId(countryMo.map(e=>e.id))/*.filter((e,i)=>{return countryMo.indexOf(e)===i})//[...new Set(countryMo.map(e=>e.id))]*/
     }, [dispatch,countryForm])
     useEffect(() => {
         setCountyId(countryMo.map(e=>e.id))
@@ -70,7 +70,7 @@ function Tourist_Activity() {
     const handleClearCountry=async (event,idp)=>{
         event.preventDefault()
         setCountryMo(countryMo.filter(el=>el.id!==idp))
-        setCountyId(countryMo.map(e=>e.id))
+        //setCountyId(countryMo.map(e=>e.id))
     }
  
     return (

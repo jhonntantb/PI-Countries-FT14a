@@ -3,39 +3,54 @@ import {Link} from "react-router-dom";
 import {useState,useEffect}from "react";
 import {useDispatch,useSelector} from "react-redux";
 import CountryCard from "./CountryCard";
-import SearchBar from "./SearchBar"
-import {getCountries} from "../actions/index"
+import {getCountries,getCountriesByName} from "../actions/index"
 import "./Countries.css"
 
 function Countries() {
     const dispach=useDispatch();
     const [order,setOrder]=useState("ASC");
+    const [name,setName]=useState("");
     const [currentPage,setCurrentPage]=useState(1);
     const [cardPerPage,setCardPerPage]=useState(10);
-    const [season,setSeason]=useState("")
     const [filterPopulation,setFilterPopulation]=useState("")
     const [filterByContinent,setFilterByContinent]=useState("")
+    let allCountries = useSelector(state => state.countries)
     useEffect(() => {
-        dispach(getCountries(order))
-    }, [dispach,order])
+        dispach(getCountries())
+    }, [dispach])
     
-    let allCountries = useSelector(state => state.countries)//trabajamos sobre este arrray
-
-    if(filterPopulation==="ASC"){
-        allCountries=allCountries.sort((a,b)=>{
-            return a.population-b.population;
-        })
-    }
-    if(filterPopulation==="DESC"){
-        allCountries=allCountries.sort((a,b)=>{
-            return b.population-a.population;
-        })
-    }
-
+    
+    //let allCountries=countriesState;//trabajamos sobre este arrray
     if(filterByContinent){
         allCountries=allCountries.filter(e=>e.continent===filterByContinent)
     }
-    
+    if(order==="ASC"){
+        allCountries=allCountries.sort((a,b)=>{
+            if(a.name.toLowerCase()<b.name.toLowerCase()) return -1;
+            if(a.name.toLowerCase()>b.name.toLowerCase()) return 1;
+            return 0;
+        })
+    }
+    if(order==="DESC"){
+        allCountries=allCountries.sort((a,b)=>{
+            if(a.name.toLowerCase()>b.name.toLowerCase()) return -1;
+            if(a.name.toLowerCase()<b.name.toLowerCase()) return 1;
+            return 0;
+        })
+    }
+    if(filterPopulation){   
+        if(filterPopulation==="min"){
+            allCountries=allCountries.sort((a,b)=>{
+                return a.population-b.population;
+            })
+        }
+        if(filterPopulation==="max"){
+            allCountries=allCountries.sort((a,b)=>{
+                return b.population-a.population;
+            })
+        }
+    }
+    //-----------------------Paginado---------------------------------
     const [pageNumberLimit,setPageNumberLimit]=useState(5);
     const [maxPageNumberLimit,setMaxPageNumberLimit]=useState(5);
     const [minPageNumberLmit,setMinPageNumberLmit]=useState(0);
@@ -62,7 +77,7 @@ function Countries() {
     }
     const indexOfLastItem=currentPage*cardPerPage;
     const indexOfFirstItem=indexOfLastItem-cardPerPage;
-    const currentItems= allCountries.slice(indexOfFirstItem,indexOfLastItem);
+    let currentItems= allCountries.slice(indexOfFirstItem,indexOfLastItem);
     const renderPageNumbers=pages.map(number=>{
         if(number<maxPageNumberLimit+1&&number
             >minPageNumberLmit){
@@ -76,13 +91,13 @@ function Countries() {
             return null;
         }
     })
+    //----------------------------------------------------------------------------
 
-    const handleClickPaises=async(e,order)=>{
+    const handleClickPaises=async(e)=>{
         e.preventDefault();
-        dispach(getCountries(order))
+        dispach(getCountries())
         setCurrentPage(1);
         setOrder("ASC")
-        setSeason("")
         setMaxPageNumberLimit(5)
         setMinPageNumberLmit(0)
         setFilterPopulation("")
@@ -99,17 +114,34 @@ function Countries() {
     const changeOrder=(e)=>{
         setOrder(e.target.value)
     }
+    const handleInputChange=(e)=>{
+        e.preventDefault();
+        setName(e.target.value)
+    }
+    const handleClickSearch=async(e)=>{
+        e.preventDefault();
+        setFilterPopulation("")
+        setFilterByContinent("")
+        dispach(getCountriesByName(name))
+        setName("")
+        
+    }
     return (
         <div>
             <br/>
             <div>
-                <button className="mostrarAll" onClick={(e)=>handleClickPaises(e,order)}>Mostrar Todos los paises</button>
+                <button className="mostrarAll" onClick={(e)=>handleClickPaises(e)}>Mostrar Todos los paises</button>
                 <Link to="/home/activities/addActivity" >
                     <button className="addActivity">Crear una Actividad Turistica</button>
                 </Link>
             </div>
             <div className="searchCountry">
-                <SearchBar handleClickPaises={handleClickPaises} order={order}/>
+                <label htmlFor="search">Buscar Pais </label>
+                <input style={{padding:"0.5rem",width:"15rem"}} 
+                type="text" name="search" placeholder="Ingrese país"  value={name} onChange={(e)=>handleInputChange(e)}/>
+                <button style={{padding:"0.5rem"}}
+                onClick={(e)=>handleClickSearch(e)} >Buscar</button>
+            
             </div>
             <div className="filter">
                 <div>
@@ -123,8 +155,8 @@ function Countries() {
                 <label htmlFor="poblacion">Mostrar Paises por Población </label>
                 <select name="poblacion" onChange={e=>handlePopulation(e)} >
                     <option value=""></option>
-                    <option value="ASC">De menor a mayor Población</option>
-                    <option value="DESC">De mayor a menor Población</option>
+                    <option value="min">De menor a mayor Población</option>
+                    <option value="max">De mayor a menor Población</option>
                 </select>
                 </div>
                 <div>
@@ -145,7 +177,7 @@ function Countries() {
             <div>
                 <div className="countries">
                 { currentItems.map(e=>{return (
-                <Link to={"/home/countries/"+e.id} key ={e.id}>
+                <Link  to={"/home/countries/"+e.id} key ={e.id}  style={{textDecoration:"none"}}>
                     <CountryCard name={e.name} flag={e.flag} continent={e.continent} key={e.id}/>
                 </Link>)})}
                 </div>

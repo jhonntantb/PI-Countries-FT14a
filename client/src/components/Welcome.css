@@ -4,8 +4,10 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
-.ingreasarbtn{
+.ingresarbtn{
+    background: url(../img/viaje.gif);
     text-decoration: none;
+    border-radius: 20px;
     padding: 20px;
     font-family: arial;
     text-transform: uppercase;
@@ -14,6 +16,12 @@ body{
     font-weight: 800;
     font-size: 25px;
     color: black;
-    background-color: #d87c7c;
     cursor: pointer;
+}
+.welcome{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }

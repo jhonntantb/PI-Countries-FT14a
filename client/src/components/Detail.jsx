@@ -9,11 +9,13 @@ import "./Detail.css"
 function Detail(props) {
     const id=props.match.params.id
     const dispatch = useDispatch();
+    const detail=useSelector(state=>state.detail)
     useEffect(() => {
         dispatch(getDetail(id))
-    }, [dispatch,id])
-    const detail=useSelector(state=>state.detail)
-    console.log(detail)
+    }, [])
+    useEffect(()=>{
+
+    },[detail])
     return (
         <div>
             <h3>País y sus actividades</h3>
@@ -31,11 +33,12 @@ function Detail(props) {
                     </div>
                 </div>
                 <div className="lolo">
-                {detail.tourisms?detail.tourisms.map(e=><ActivityCard 
+                {detail.hasOwnProperty("tourisms")?detail.tourisms.map(e=><ActivityCard 
                 name={e.name} 
                 difficulty={e.difficulty} 
                 duration={e.duration} 
-                season={e.season} />)
+                season={e.season}
+                 />)
                 :<p>Aun no se agregaron actividades puedes agregarlo </p>}
                 </div>
             </div>

@@ -12,8 +12,8 @@ export default function NavBar() {
             <nav>
                 <ul className="list">
                     <li className="list-item">
-                        <NavLink exact to="/home/countries" >Países</NavLink>
-                        <NavLink to="/home/activities" >Actividades</NavLink>
+                        <NavLink style={{textDecoration:"none",fontSize: "30px"}} exact to="/home/countries" >Países</NavLink>
+                        <NavLink to="/home/activities"  style={{textDecoration:"none",fontSize: "30px"}} >Actividades</NavLink>
                     </li>
                 </ul>
             </nav>

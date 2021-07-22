@@ -6,10 +6,10 @@ export const CLEAR_COUNTRY_FORM="CLEAR_COUNTRY_FORM"
 export const GET_COUNTRIES_FORM="GET_COUNTRIES_FORM"
 export const GET_ACTIVITIES="GET_ACTIVITIES"
 
-export function getCountries(order){
+export function getCountries(){
     return async function(dispatch){
         try {
-            const res=await axios("http://localhost:3001/countries?order="+order);
+            const res=await axios("http://localhost:3001/countries");
             return dispatch({
                 type: GET_COUNTRIES,
                 payload: res.data

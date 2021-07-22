@@ -2,9 +2,10 @@ import React from 'react'
 import "./ActivityCard.css"
 
 function ActivityCard({name,difficulty,duration,season,countries}) {
+    let key=1
     return (
         <div className="cardActivity">
-            <div>
+            <div key={key+1}>
             <h3>Actividad:{name}</h3>
             <p>Dificultad:{difficulty}</p>
             <p>Duracion:{duration}hrs.</p>
