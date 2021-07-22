@@ -3,7 +3,7 @@
     text-align: center;
     font-size: 25px;
     background-color: rgb(245, 241, 204);
-    border: black;
+    border: 3px solid rgb(56, 2, 2);
     padding: 20px;
     display: flex;
     align-items: center;

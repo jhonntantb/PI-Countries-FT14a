@@ -21,7 +21,7 @@ function Detail(props) {
             <h3>País y sus actividades</h3>
             <div className="detail">
                 <div className="detailCountry" >
-                    <div>
+                    <div key={detail.id}>
                         <h3>Nombre: {detail.name}</h3>
                         <p>NumericCode(Id):{detail.id}</p>
                         <img src={detail.flag} alt="No encontro la bandera" width="200px" height="150px" /> 
@@ -33,13 +33,14 @@ function Detail(props) {
                     </div>
                 </div>
                 <div className="lolo">
-                {detail.hasOwnProperty("tourisms")?detail.tourisms.map(e=><ActivityCard 
+                {detail.hasOwnProperty("tourisms")&&detail.tourisms.length>0?detail.tourisms.map(e=><ActivityCard 
                 name={e.name} 
                 difficulty={e.difficulty} 
                 duration={e.duration} 
                 season={e.season}
+                key={e.id}
                  />)
-                :<p>Aun no se agregaron actividades puedes agregarlo </p>}
+                :<p>Aun no se agregaron actividades</p>}
                 </div>
             </div>
             <div>
